@@ -54,7 +54,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">openmdao.main.api</span> <span class="kn">import</span> <span class="n">Component</span><span class="p">,</span> <span class="n">Assembly</span>
-<span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">openmdao.main.datatypes.api</span> <span class="kn">import</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Int</span><span class="p">,</span> <span class="n">Str</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Enum</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">,</span> <span class="n">radians</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">log10</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">floor</span><span class="p">,</span> <span class="n">ceil</span>
 <span class="kn">import</span> <span class="nn">algopy</span>
@@ -3860,7 +3860,7 @@
     <span class="n">rotorRatedRPM</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;rpm&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Speed of rotor at rated power&#39;</span><span class="p">)</span>
 
     <span class="c"># parameters</span>
-    <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;type of gearbox based on drivetrain type: 1 = standard 3-stage gearbox, 2 = single-stage, 3 = multi-gen, 4 = direct drive&#39;</span><span class="p">)</span>
+    <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Enum</span><span class="p">(</span><span class="s">&#39;geared&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;geared&#39;</span><span class="p">,</span> <span class="s">&#39;single_stage&#39;</span><span class="p">,</span> <span class="s">&#39;multi_drive&#39;</span><span class="p">,</span> <span class="s">&#39;pm_direct_drive&#39;</span><span class="p">),</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">)</span>
 
     <span class="c"># returns</span>
     <span class="n">mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;overall component mass&#39;</span><span class="p">)</span>
@@ -3908,10 +3908,19 @@
           <span class="n">CalcRPM</span>    <span class="o">=</span> <span class="mi">80</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="o">*</span><span class="mf">0.5</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">30</span><span class="p">)</span>
         <span class="n">CalcTorque</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">machine_rating</span><span class="o">*</span><span class="mf">1.1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">CalcRPM</span> <span class="o">*</span> <span class="n">pi</span><span class="o">/</span><span class="mi">30</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="p">(</span><span class="n">massCoeff</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine_rating</span> <span class="o">**</span> <span class="n">massExp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">==</span> <span class="s">&#39;geared&#39;</span><span class="p">:</span>
+            <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">==</span> <span class="s">&#39;single_stage&#39;</span><span class="p">:</span>
+            <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">==</span> <span class="s">&#39;multi_drive&#39;</span><span class="p">:</span>
+            <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span> <span class="o">==</span> <span class="s">&#39;pm_direct_drive&#39;</span><span class="p">:</span>
+            <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="mi">4</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">drivetrain_design</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="p">(</span><span class="n">massCoeff</span><span class="p">[</span><span class="n">drivetrain_design</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">machine_rating</span> <span class="o">**</span> <span class="n">massExp</span><span class="p">[</span><span class="n">drivetrain_design</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c"># direct drive</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="p">(</span><span class="n">massCoeff</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span><span class="p">]</span> <span class="o">*</span> <span class="n">CalcTorque</span> <span class="o">**</span> <span class="n">massExp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">drivetrain_design</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="p">(</span><span class="n">massCoeff</span><span class="p">[</span><span class="n">drivetrain_design</span><span class="p">]</span> <span class="o">*</span> <span class="n">CalcTorque</span> <span class="o">**</span> <span class="n">massExp</span><span class="p">[</span><span class="n">drivetrain_design</span><span class="p">])</span>
 
         <span class="c"># calculate mass properties</span>
         <span class="n">length</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.8</span> <span class="o">*</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotor_diameter</span><span class="p">)</span>
@@ -4355,7 +4364,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 24, 2014.
+      Last updated on Sep 25, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>

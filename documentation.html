@@ -75,7 +75,7 @@
     <span class="n">rotor_bending_moment</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;maximum aerodynamic bending moment&#39;</span><span class="p">)</span>
 
     <span class="c"># parameters</span>
-    <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;type of gearbox based on drivetrain type: 1 = standard 3-stage gearbox, 2 = single-stage, 3 = multi-gen, 4 = direct drive&#39;</span><span class="p">,</span> <span class="n">deriv_ignore</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Enum</span><span class="p">(</span><span class="s">&#39;geared&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;geared&#39;</span><span class="p">,</span> <span class="s">&#39;single_stage&#39;</span><span class="p">,</span> <span class="s">&#39;multi_drive&#39;</span><span class="p">,</span> <span class="s">&#39;pm_direct_drive&#39;</span><span class="p">),</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">)</span>
     <span class="n">crane</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for presence of crane&#39;</span><span class="p">,</span> <span class="n">deriv_ignore</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">bevel</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Flag for the presence of a bevel stage - 1 if present, 0 if not&#39;</span><span class="p">)</span>
     <span class="n">gear_configuration</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tring that represents the configuration of the gearbox (stage number and types)&#39;</span><span class="p">)</span>
@@ -356,7 +356,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2014, NREL.
-      Last updated on Sep 24, 2014.
+      Last updated on Sep 25, 2014.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
