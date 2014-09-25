@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Documentation &mdash; DriveSE 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nrel.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DriveSE 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="5. Theory" href="theory.html" />
+    <link rel="prev" title="3. Tutorial" href="tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="theory.html" title="5. Theory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">DriveSE 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="documentation">
+<span id="documentation-label"></span><h1>4. Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<p>Turbine component sizing models for hub and drivetrain components are described along with mass-cost models for the full set of turbine components from the rotor to tower and foundation.</p>
+<div class="section" id="documentation-for-drivese">
+<h2>4.1. Documentation for DriveSE<a class="headerlink" href="#documentation-for-drivese" title="Permalink to this headline">¶</a></h2>
+<p>The following inputs and outputs are defined for DriveWPACT:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Drive4pt</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">       DriveSE class</span>
+<span class="sd">          The DriveSE4pt class is used to represent the nacelle system of a wind turbine with two main bearings</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># variables</span>
+    <span class="n">rotor_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor diameter&#39;</span><span class="p">)</span>
+    <span class="n">rotor_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor mass&#39;</span><span class="p">)</span>
+    <span class="n">rotor_torque</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor torque at rated power&#39;</span><span class="p">)</span>
+    <span class="n">rotor_thrust</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;maximum rotor thrust&#39;</span><span class="p">)</span>
+    <span class="n">rotor_speed</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;rpm&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor speed at rated&#39;</span><span class="p">)</span>
+    <span class="n">machine_rating</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kW&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;machine rating of generator&#39;</span><span class="p">)</span>
+    <span class="n">gear_ratio</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;overall gearbox ratio&#39;</span><span class="p">)</span>
+    <span class="n">tower_top_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;diameter of tower top&#39;</span><span class="p">)</span>
+    <span class="n">rotor_bending_moment</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;maximum aerodynamic bending moment&#39;</span><span class="p">)</span>
+
+    <span class="c"># parameters</span>
+    <span class="n">drivetrain_design</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;type of gearbox based on drivetrain type: 1 = standard 3-stage gearbox, 2 = single-stage, 3 = multi-gen, 4 = direct drive&#39;</span><span class="p">,</span> <span class="n">deriv_ignore</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">crane</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flag for presence of crane&#39;</span><span class="p">,</span> <span class="n">deriv_ignore</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">bevel</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Flag for the presence of a bevel stage - 1 if present, 0 if not&#39;</span><span class="p">)</span>
+    <span class="n">gear_configuration</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;tring that represents the configuration of the gearbox (stage number and types)&#39;</span><span class="p">)</span>
+
+    <span class="c"># outputs</span>
+    <span class="n">nacelle_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;nacelle mass&#39;</span><span class="p">)</span>
+    <span class="n">nacelle_cm</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;center of mass of nacelle from tower top in yaw-aligned coordinate system&#39;</span><span class="p">)</span>
+    <span class="n">nacelle_I</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg*m**2&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mass moments of inertia for nacelle [Ixx, Iyy, Izz, Ixy, Ixz, Iyz] about its center of mass&#39;</span><span class="p">)</span>
+    <span class="n">low_speed_shaft_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">main_bearing_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">second_bearing_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">gearbox_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">high_speed_side_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">generator_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">bedplate_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+    <span class="n">yaw_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;component mass&#39;</span><span class="p">)</span>
+
+    <span class="c"># new variables</span>
+    <span class="n">rotor_bending_moment_x</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;The bending moment about the x axis&#39;</span><span class="p">)</span>
+    <span class="n">rotor_bending_moment_y</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;The bending moment about the y axis&#39;</span><span class="p">)</span>
+    <span class="n">rotor_bending_moment_z</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;The bending moment about the z axis&#39;</span><span class="p">)</span>
+    <span class="n">rotor_force_x</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;The force along the x axis applied at hub center&#39;</span><span class="p">)</span>
+    <span class="n">rotor_force_y</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;The force along the y axis applied at hub center&#39;</span><span class="p">)</span>
+    <span class="n">rotor_force_z</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;The force along the z axis applied at hub center&#39;</span><span class="p">)</span>
+    <span class="n">blade_root_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;blade root diameter&#39;</span><span class="p">)</span>
+    <span class="n">shaft_angle</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;deg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Angle of the LSS inclindation with respect to the horizontal&#39;</span><span class="p">)</span> <span class="c"># Bedplate tilting angle</span>
+    <span class="n">shaft_ratio</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Ratio of inner diameter to outer diameter.  Leave zero for solid LSS&#39;</span><span class="p">)</span>
+    <span class="n">rotorRatedRPM</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;rpm&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Speed of rotor at rated power&#39;</span><span class="p">)</span>
+    <span class="n">flange_length</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flange length&#39;</span><span class="p">)</span>
+    <span class="n">overhang</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Overhang distance&#39;</span><span class="p">)</span>
+    <span class="n">gearbox_cm</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;distance from tower-top center to gearbox cm--negative for upwind&#39;</span><span class="p">)</span>
+
+    <span class="c"># new variables and parameters</span>
+    <span class="n">Np</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,]),</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of planets in each stage&#39;</span><span class="p">)</span>
+    <span class="n">ratio_type</span><span class="o">=</span><span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;optimal or empirical stage ratios&#39;</span><span class="p">)</span>
+    <span class="n">shaft_type</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;normal or short shaft length&#39;</span><span class="p">)</span>
+    <span class="n">uptower_transformer</span> <span class="o">=</span> <span class="n">Bool</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;Boolean stating if transformer is uptower&#39;</span><span class="p">)</span>
+    <span class="n">shrink_disc_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Mass of the shrink disc&#39;</span><span class="p">)</span>
+    <span class="n">carrier_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;Carrier mass&#39;</span><span class="p">)</span>
+    <span class="n">mb1Type</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Main bearing type: CARB, TRB or SRB&#39;</span><span class="p">)</span>
+    <span class="n">mb2Type</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;Second bearing type: CARB, TRB or SRB&#39;</span><span class="p">)</span>
+    <span class="n">L_rb</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;distance between hub center and upwind main bearing&#39;</span><span class="p">)</span>
+    <span class="n">hss_length</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;high speed shaft length determined by user. Default 0.5m&#39;</span><span class="p">)</span>
+
+    <span class="c"># fatigue check</span>
+    <span class="n">check_fatigue</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;turns on and off fatigue check. 0 if no fatigue check, 1 if unknown loads, 2 if known loads&#39;</span><span class="p">)</span>
+    <span class="n">fatigue_exponent</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;fatigue exponent of shaft material&#39;</span><span class="p">)</span>
+    <span class="n">S_ut</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;Pa&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;ultimate tensile strength of shaft material&#39;</span><span class="p">)</span>
+    <span class="n">weibull_A</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;weibull scale parameter &quot;A&quot; of 10-minute windspeed probability distribution&#39;</span><span class="p">)</span>
+    <span class="n">weibull_k</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;weibull shape parameter &quot;k&quot; of 10-minute windspeed probability distribution&#39;</span><span class="p">)</span>
+    <span class="n">blade_number</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;number of blades on rotor, 2 or 3&#39;</span><span class="p">)</span>
+    <span class="n">cut_in</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m/s&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;cut-in windspeed&#39;</span><span class="p">)</span>
+    <span class="n">cut_out</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m/s&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;cut-out windspeed&#39;</span><span class="p">)</span>
+    <span class="n">Vrated</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m/s&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;rated windspeed&#39;</span><span class="p">)</span>
+    <span class="n">T_life</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;yr&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;cut-in windspeed&#39;</span><span class="p">)</span>
+    <span class="n">IEC_Class</span> <span class="o">=</span> <span class="n">Str</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span><span class="n">desc</span><span class="o">=</span><span class="s">&#39;IEC class letter: A, B, or C&#39;</span><span class="p">)</span>
+    <span class="n">DrivetrainEfficiency</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;overall drivettrain efficiency&#39;</span><span class="p">)</span>
+    <span class="n">availability</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="o">.</span><span class="mi">95</span><span class="p">,</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;turbine availability&#39;</span><span class="p">)</span>
+
+    <span class="c">#for use if check_fatigue  = 2:</span>
+    <span class="n">rotor_thrust_distribution</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;thrust distribution across turbine life&#39;</span><span class="p">)</span>
+    <span class="n">rotor_thrust_count</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;corresponding cycle-count array for thrust distribution&#39;</span><span class="p">)</span>
+    <span class="n">rotor_Fy_distribution</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;Fy distribution across turbine life&#39;</span><span class="p">)</span>
+    <span class="n">rotor_Fy_count</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;corresponding cycle-count array for Fy distribution&#39;</span><span class="p">)</span>
+    <span class="n">rotor_Fz_distribution</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;N&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;Fz distribution across turbine life&#39;</span><span class="p">)</span>
+    <span class="n">rotor_Fz_count</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;corresponding cycle-count array for Fz distribution&#39;</span><span class="p">)</span> 
+    <span class="n">rotor_torque_distribution</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;torque distribution across turbine life&#39;</span><span class="p">)</span>
+    <span class="n">rotor_torque_count</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;corresponding cycle-count array for torque distribution&#39;</span><span class="p">)</span> 
+    <span class="n">rotor_My_distribution</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;My distribution across turbine life&#39;</span><span class="p">)</span>
+    <span class="n">rotor_My_count</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;corresponding cycle-count array for My distribution&#39;</span><span class="p">)</span> 
+    <span class="n">rotor_Mz_distribution</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;Mz distribution across turbine life&#39;</span><span class="p">)</span>
+    <span class="n">rotor_Mz_count</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;corresponding cycle-count array for Mz distribution&#39;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<div class="section" id="module-drivewpact.drive">
+<span id="implemented-base-model"></span><h3>4.1.1. Implemented Base Model<a class="headerlink" href="#module-drivewpact.drive" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="drivewpact.drive.NacelleBase">
+<em class="property">class </em><tt class="descclassname">drivewpact.drive.</tt><tt class="descname">NacelleBase</tt><a class="reference internal" href="_modules/drivewpact/drive.html#NacelleBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivewpact.drive.NacelleBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-drivese.drivese_components">
+<span id="referenced-sub-system-modules"></span><h3>4.1.2. Referenced Sub-System Modules<a class="headerlink" href="#module-drivese.drivese_components" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="drivese.drivese_components.LowSpeedShaft_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">LowSpeedShaft_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#LowSpeedShaft_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.LowSpeedShaft_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.LowSpeedShaft_drive4pt">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">LowSpeedShaft_drive4pt</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#LowSpeedShaft_drive4pt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.LowSpeedShaft_drive4pt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.LowSpeedShaft_drive3pt">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">LowSpeedShaft_drive3pt</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#LowSpeedShaft_drive3pt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.LowSpeedShaft_drive3pt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.MainBearing_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">MainBearing_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#MainBearing_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.MainBearing_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.SecondBearing_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">SecondBearing_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#SecondBearing_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.SecondBearing_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.Gearbox_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">Gearbox_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#Gearbox_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.Gearbox_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.HighSpeedSide_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">HighSpeedSide_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#HighSpeedSide_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.HighSpeedSide_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.Generator_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">Generator_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#Generator_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.Generator_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.Bedplate_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">Bedplate_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#Bedplate_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.Bedplate_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.AboveYawMassAdder_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">AboveYawMassAdder_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#AboveYawMassAdder_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.AboveYawMassAdder_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.YawSystem_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">YawSystem_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#YawSystem_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.YawSystem_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivese.drivese_components.NacelleSystemAdder_drive">
+<em class="property">class </em><tt class="descclassname">drivese.drivese_components.</tt><tt class="descname">NacelleSystemAdder_drive</tt><a class="reference internal" href="_modules/drivese/drivese_components.html#NacelleSystemAdder_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.drivese_components.NacelleSystemAdder_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="documentation-for-hubse">
+<h2>4.2. Documentation for HubSE<a class="headerlink" href="#documentation-for-hubse" title="Permalink to this headline">¶</a></h2>
+<p>The following inputs and outputs are defined for HubWPACT:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">HubSE</span><span class="p">(</span><span class="n">Assembly</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">       HubWPACT class</span>
+<span class="sd">          The HubWPACT class is used to represent the hub system of a wind turbine.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># variables</span>
+    <span class="n">blade_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mass of one blade&#39;</span><span class="p">)</span>
+    <span class="n">rotor_bending_moment</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;N*m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;flapwise bending moment at blade root&#39;</span><span class="p">)</span>
+    <span class="n">rotor_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;rotor diameter&#39;</span><span class="p">)</span>
+    <span class="n">blade_root_diameter</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;blade root diameter&#39;</span><span class="p">)</span>
+    <span class="n">L_rb</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;distance between hub center and upwind main bearing&#39;</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;deg&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;shaft angle&#39;</span><span class="p">)</span>
+    <span class="n">MB1_location</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;center of mass of main bearing in [x,y,z] for an arbitrary coordinate system&#39;</span><span class="p">)</span>
+    <span class="n">machine_rating</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">iotype</span> <span class="o">=</span> <span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">units</span> <span class="o">=</span> <span class="s">&#39;MW&#39;</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">&#39;machine rating of turbine&#39;</span><span class="p">)</span>
+    
+    <span class="c"># parameters</span>
+    <span class="n">blade_number</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;in&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;number of turbine blades&#39;</span><span class="p">)</span>
+
+    <span class="c"># outputs</span>
+    <span class="n">hub_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;overall component mass&#39;</span><span class="p">)</span>
+    <span class="n">hub_system_cm</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;center of mass of the hub relative to tower to in yaw-aligned c.s.&#39;</span><span class="p">)</span>
+    <span class="n">hub_system_I</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s">&#39;mass moments of Inertia of hub [Ixx, Iyy, Izz, Ixy, Ixz, Iyz] around its center of mass in yaw-aligned c.s.&#39;</span><span class="p">)</span>
+
+    <span class="n">hub_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">)</span>
+    <span class="n">pitch_system_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">)</span>
+    <span class="n">spinner_mass</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">iotype</span><span class="o">=</span><span class="s">&#39;out&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s">&#39;kg&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h3>4.2.1. Implemented Base Model<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-drivewpact.hub"></span><dl class="class">
+<dt id="drivewpact.hub.HubBase">
+<em class="property">class </em><tt class="descclassname">drivewpact.hub.</tt><tt class="descname">HubBase</tt><a class="reference internal" href="_modules/drivewpact/hub.html#HubBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivewpact.hub.HubBase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>4.2.2. Referenced Sub-System Modules<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-drivewpact.hub"></span><dl class="class">
+<dt id="drivewpact.hub.PitchSystem">
+<em class="property">class </em><tt class="descclassname">drivewpact.hub.</tt><tt class="descname">PitchSystem</tt><a class="reference internal" href="_modules/drivewpact/hub.html#PitchSystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivewpact.hub.PitchSystem" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivewpact.hub.Spinner">
+<em class="property">class </em><tt class="descclassname">drivewpact.hub.</tt><tt class="descname">Spinner</tt><a class="reference internal" href="_modules/drivewpact/hub.html#Spinner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivewpact.hub.Spinner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="drivewpact.hub.HubSystemAdder">
+<em class="property">class </em><tt class="descclassname">drivewpact.hub.</tt><tt class="descname">HubSystemAdder</tt><a class="reference internal" href="_modules/drivewpact/hub.html#HubSystemAdder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivewpact.hub.HubSystemAdder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-drivese.hub"></span><dl class="class">
+<dt id="drivese.hub.Hub_drive">
+<em class="property">class </em><tt class="descclassname">drivese.hub.</tt><tt class="descname">Hub_drive</tt><a class="reference internal" href="_modules/drivese/hub.html#Hub_drive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#drivese.hub.Hub_drive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. Documentation</a><ul>
+<li><a class="reference internal" href="#documentation-for-drivese">4.1. Documentation for DriveSE</a><ul>
+<li><a class="reference internal" href="#module-drivewpact.drive">4.1.1. Implemented Base Model</a></li>
+<li><a class="reference internal" href="#module-drivese.drivese_components">4.1.2. Referenced Sub-System Modules</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#documentation-for-hubse">4.2. Documentation for HubSE</a><ul>
+<li><a class="reference internal" href="#id1">4.2.1. Implemented Base Model</a></li>
+<li><a class="reference internal" href="#id2">4.2.2. Referenced Sub-System Modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">3. Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="theory.html"
+                        title="next chapter">5. Theory</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/documentation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="theory.html" title="5. Theory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="3. Tutorial"
+             >previous</a> |</li>
+        <li><a href="index.html">DriveSE 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, NREL.
+      Last updated on Sep 24, 2014.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
